@@ -32,4 +32,11 @@ const UsuarioSchemma = Schema({
     },
 });
 
+// Sobreescribo el metodo toJSON para quitar los campos __v y password para que no
+// los devuelva en el response del controlador
+UsuarioSchemma.methods.toJSON = function() {
+    const { __v, password,  ...usuario } = this.toObject();
+    return usuario;
+};
+
 module.exports = model( 'Usuario', UsuarioSchemma);
