@@ -1,7 +1,9 @@
 const { Router } = require('express');
 const { check } = require ('express-validator');
 
-const { esRolValido, emailExiste } = require('../helpers/db-validators');
+const { esRolValido,
+        emailExiste,
+        usuarioExiste } = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const { usuariosGet,
@@ -28,7 +30,13 @@ router.post('/', [
     validarCampos
 ], usuariosPost);
 
-router.put('/:id', usuariosPut);
+router.put('/:id',[
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom( usuarioExiste ),
+    // Invoco al helper para validar el rol ingresado contra la DB
+    check('rol').custom( esRolValido ),
+    validarCampos
+], usuariosPut);
 
 router.delete('/', usuariosDelete);
 
