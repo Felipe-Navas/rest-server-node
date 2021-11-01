@@ -16,8 +16,8 @@ const router = Router();
 
 router.get('/',[
     // Valido los query params
-    check('limite','El parametro limite no es un numero').isNumeric(),
-    check('desde','El parametro desde no es un numero').isNumeric(),
+    check('limite','El parametro limite no es un numero').isNumeric().optional(),
+    check('desde','El parametro desde no es un numero').isNumeric().optional(),
     validarCampos
 ], usuariosGet);
 
@@ -43,7 +43,11 @@ router.put('/:id',[
     validarCampos
 ], usuariosPut);
 
-router.delete('/', usuariosDelete);
+router.delete('/:id',[
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom( usuarioExiste ),
+    validarCampos
+], usuariosDelete);
 
 
 module.exports = router;

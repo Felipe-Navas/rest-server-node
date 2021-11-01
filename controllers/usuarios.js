@@ -52,7 +52,7 @@ const usuariosPost = async(req, res = response) => {
 
 const usuariosPut = async(req, res = response) => {
     
-    const { id } = req.params
+    const { id } = req.params;
     const { _id, password, google, correo, ...resto } = req.body;
 
     // Validar el ID
@@ -71,9 +71,18 @@ const usuariosPut = async(req, res = response) => {
     });
 };
 
-const usuariosDelete = (req, res = response) => {
+const usuariosDelete = async(req, res = response) => {
+
+    const { id } = req.params;
+
+    // Borrado fisico
+    // const usuario = await Usuario.findByIdAndDelete( id );
+
+    // Borrado logico
+    const usuario = await Usuario.findByIdAndUpdate( id, { estado: false } );
+
     res.json({
-        "msg": "Delete API - controlador"
+        usuario
     });
 };
 
