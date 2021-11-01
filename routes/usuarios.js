@@ -14,7 +14,12 @@ const { usuariosGet,
 
 const router = Router();
 
-router.get('/', usuariosGet);
+router.get('/',[
+    // Valido los query params
+    check('limite','El parametro limite no es un numero').isNumeric(),
+    check('desde','El parametro desde no es un numero').isNumeric(),
+    validarCampos
+], usuariosGet);
 
 router.post('/', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),

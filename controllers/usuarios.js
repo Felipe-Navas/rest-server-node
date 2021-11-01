@@ -4,15 +4,32 @@ const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
 
 
-const usuariosGet = (req = request, res = response) => {
+const usuariosGet = async(req = request, res = response) => {
 
-    const { q, nombre = "No name", edad} = req.query;
+    // Obtengo los query params, los parametros que mando despues del ? en la URI
+    const { limite = 5, desde = 0 } = req.query;
+    const query = { estado: true };
+
+    // Como aca tengo dos await, puedo lanzarlos en simultaneo para
+    // optimizar el tiempo de respues y devolver los dos resultados
+    // const usuarios = await Usuario.find( query )
+    //    .skip( Number( desde ))
+    //    .limit( Number( limite ));
+    
+    // const totalRegistros = await Usuario.countDocuments( query );
+
+    // Lanzo los dos await en simultaneo, pero con este await, espero a que
+    // los dos finalicen y los devuelvo en el response
+    const [ totalRegistros, usuarios] = await Promise.all([
+        Usuario.countDocuments( query ),
+        Usuario.find( query )
+        .skip( Number( desde ))
+        .limit( Number( limite )),
+    ])
 
     res.json({
-        "msg": "Get API - controlador",
-        q,
-        nombre,
-        edad
+        totalRegistros,
+        usuarios,
     });
 };
 
@@ -47,7 +64,7 @@ const usuariosPut = async(req, res = response) => {
         resto.password = bcryptjs.hashSync( password, salt);
     };
 
-    const usuario = await Usuario.findByIdAndUpdate( id, resto);
+    const usuario = await Usuario.findByIdAndUpdate( id, resto );
     
     res.json({
         usuario
