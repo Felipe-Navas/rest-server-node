@@ -13,13 +13,28 @@ This README would normally document whatever steps are necessary to get your app
 
 * Summary of set up
     * ```npm install```
+* Configuration of ".env" file
+    * Create a new file ".env" and add the content of ".example.env" into your new ".env" file
+        * PORT= -> In this variable add the port number where the server will run                   
+        * MONGOBD_CNN=mongodb+srv://<user>:<password>@<micluster>.ml5uh.mongodb.net/test
+            * Go to https://cloud.mongodb.com and create an user
+            * Create a new cluster
+            * Add a new Database User, in the section SECURITY -> Database Access
+            * Get the connection string in the section DEPLOYMENT -> Databases, clicking in "Connect"
+            * Modify the the password in your connection string
+        * SECRETOPRIVATEKEY= -> In this variable create a secure password for the token generation
+
 * How to run the app?
     * ```node app```
     * ```npm start```
 * Dependencies
-    * "cors": "^2.8.5",
-    * "dotenv": "^10.0.0",
+    * "bcryptjs": "^2.4.3"
+    * "cors": "^2.8.5"
+    * "dotenv": "^10.0.0"
     * "express": "^4.17.1"
+    * "express-validator": "^6.13.0"
+    * "jsonwebtoken": "^8.5.1"
+    * "mongoose": "^6.0.12"
 
 ### Contribution guidelines ###
 
