@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const UsuarioSchemma = Schema({
+const UsuarioSchema = Schema({
     nombre: {
         type: String,
         required: [true, 'El nombre es obligatorio'],
@@ -35,10 +35,10 @@ const UsuarioSchemma = Schema({
 
 // Sobreescribo el metodo toJSON para quitar los campos __v y password para que no
 // los devuelva en el response del controlador
-UsuarioSchemma.methods.toJSON = function() {
+UsuarioSchema.methods.toJSON = function() {
     const { __v, password, _id,  ...usuario } = this.toObject();
     usuario.uid = _id;
     return usuario;
 };
 
-module.exports = model( 'Usuario', UsuarioSchemma);
+module.exports = model( 'Usuario', UsuarioSchema);
