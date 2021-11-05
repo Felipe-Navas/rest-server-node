@@ -9,7 +9,7 @@ const validarJWT = async( req = request, res = response, next ) => {
 
     if ( !token ) {
         return res.status(401).json({
-            msg: 'Es necesario el token para eliminar'
+            msg: 'Es necesario el token para continuar'
         });
     };
 

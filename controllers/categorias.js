@@ -1,6 +1,42 @@
 const { response, request } = require('express');
 const { Categoria } = require('../models');
 
+const obtenerCategoria = async(req = request, res = response) => {
+
+    // Obtengo el Id pasado por URI
+    const { id } = req.params;
+
+    // Busco la categoria en BD
+    const categoria = await Categoria.findById( id );
+
+    res.json({
+        categoria
+    });
+};
+
+const obtenerCategorias = async(req = request, res = response) => {
+
+    // Obtengo los query params, los parametros que mando despues del ? en la URI
+    const { limite = 5, desde = 0 } = req.query;
+    const query = { estado: true };
+
+    // Lanzo los dos await en simultaneo, esperando a que
+    // los dos finalicen y los devuelvo en el response
+    const [ totalRegistros, categorias] = await Promise.all([
+        Categoria.countDocuments( query ),
+        Categoria.find( query )
+        .populate('usuario')
+        .skip( Number( desde ))
+        .limit( Number( limite )),
+    ]);
+
+    res.json({
+        totalRegistros,
+        categorias,
+    });
+};
+
+
 const crearCategoria = async(req = request, res = response) => {
 
     const nombre = req.body.nombre.toUpperCase();
@@ -36,5 +72,38 @@ const crearCategoria = async(req = request, res = response) => {
     };
 };
 
+const actualizarCategoria = async(req = request, res = response) => {
+    
+    const { id } = req.params;
+    const { nombre } = req.body;
 
-module.exports = { crearCategoria };
+    const categoria = await Categoria.findByIdAndUpdate( id, nombre );
+    
+    res.json({
+        categoria
+    });
+};
+
+const borrarCategoria = async(req, res = response) => {
+
+    const { id } = req.params;
+
+    // Borrado fisico
+    // const categoria = await Categoria.findByIdAndDelete( id );
+
+    // Borrado logico
+    const categoria = await Categoria.findByIdAndUpdate( id, { estado: false } );
+
+    res.json({
+        categoria
+    });
+};
+
+
+module.exports = {
+    crearCategoria,
+    obtenerCategoria,
+    obtenerCategorias,
+    actualizarCategoria,
+    borrarCategoria
+};

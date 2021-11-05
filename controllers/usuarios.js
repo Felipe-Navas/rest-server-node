@@ -18,14 +18,14 @@ const usuariosGet = async(req = request, res = response) => {
     
     // const totalRegistros = await Usuario.countDocuments( query );
 
-    // Lanzo los dos await en simultaneo, pero con este await, espero a que
+    // Lanzo los dos await en simultaneo, esperando a que
     // los dos finalicen y los devuelvo en el response
     const [ totalRegistros, usuarios] = await Promise.all([
         Usuario.countDocuments( query ),
         Usuario.find( query )
         .skip( Number( desde ))
         .limit( Number( limite )),
-    ])
+    ]);
 
     res.json({
         totalRegistros,

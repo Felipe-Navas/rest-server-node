@@ -18,5 +18,13 @@ const CategoriaSchema = Schema({
     },
 });
 
+// Sobreescribo el metodo toJSON para quitar los campos __v para que no
+// lo devuelva en el response del controlador
+CategoriaSchema.methods.toJSON = function() {
+    const { __v, _id,  ...categoria } = this.toObject();
+    categoria.uid = _id;
+    return categoria;
+};
+
 
 module.exports = model( 'Categoria', CategoriaSchema );

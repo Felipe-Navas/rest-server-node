@@ -1,5 +1,6 @@
+const { Categoria, Usuario } = require('../models');
 const Role = require('../models/rol');
-const Usuario = require('../models/usuario');
+
 
 // De esta manera puedo controlar los valores validos consultandolos desde la DB
 const esRolValido = async(rol = '' ) => {
@@ -31,9 +32,19 @@ const usuarioExiste = async( id ) => {
     };
 };
 
+// Verificar si la categoria existe
+const categoriaExiste = async( id ) => {
+    // Busco la categoria en BD
+    const categoria = await Categoria.findById( id );
+    
+    if ( !categoria ) {
+        throw new Error(`La categoria con id ${ id } no existe`);
+    };
+};
 
 module.exports = {
     esRolValido,
     emailExiste,
     usuarioExiste,
+    categoriaExiste
 };
