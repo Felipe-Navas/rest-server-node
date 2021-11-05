@@ -7,7 +7,7 @@ const obtenerCategoria = async(req = request, res = response) => {
     const { id } = req.params;
 
     // Busco la categoria en BD
-    const categoria = await Categoria.findById( id );
+    const categoria = await Categoria.findById( id ).populate('usuario', 'nombre');
 
     res.json({
         categoria
@@ -25,7 +25,7 @@ const obtenerCategorias = async(req = request, res = response) => {
     const [ totalRegistros, categorias] = await Promise.all([
         Categoria.countDocuments( query ),
         Categoria.find( query )
-        .populate('usuario')
+        .populate('usuario', 'nombre')
         .skip( Number( desde ))
         .limit( Number( limite )),
     ]);
@@ -75,9 +75,12 @@ const crearCategoria = async(req = request, res = response) => {
 const actualizarCategoria = async(req = request, res = response) => {
     
     const { id } = req.params;
-    const { nombre } = req.body;
+    const { estado, usuario, ...data } = req.body;
 
-    const categoria = await Categoria.findByIdAndUpdate( id, nombre );
+    data.nombre = data.nombre.toUpperCase();
+    data.usuario = req.usuarioAutenticado._id;
+
+    const categoria = await Categoria.findByIdAndUpdate( id, data, { new: true } );
     
     res.json({
         categoria
@@ -92,7 +95,7 @@ const borrarCategoria = async(req, res = response) => {
     // const categoria = await Categoria.findByIdAndDelete( id );
 
     // Borrado logico
-    const categoria = await Categoria.findByIdAndUpdate( id, { estado: false } );
+    const categoria = await Categoria.findByIdAndUpdate( id, { estado: false }, { new: true } );
 
     res.json({
         categoria
