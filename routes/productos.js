@@ -46,9 +46,6 @@ router.put('/:id',[
     esAdminRole,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom( productoExiste ),
-    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    check('categoria', 'La categoria es obligatorio').not().isEmpty(),
-    check('categoria').custom( categoriaExistePorNombre ),
     validarCampos
 ], actualizarProducto);
 

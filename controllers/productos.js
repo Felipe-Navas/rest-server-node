@@ -8,8 +8,8 @@ const obtenerProducto = async(req = request, res = response) => {
 
     // Busco el producto en BD
     const producto = await Producto.findById( id )
-        .populate('usuario', 'nombre')
-        .populate('categoria', 'nombre');
+                            .populate('usuario', 'nombre')
+                            .populate('categoria', 'nombre');
 
     res.json({
         producto
@@ -88,12 +88,27 @@ const actualizarProducto = async(req = request, res = response) => {
     const { id } = req.params;
     const { estado, usuario, categoria, ...data } = req.body;
 
-    data.nombre = data.nombre.toUpperCase();
+    if ( data.nombre ){
+        data.nombre = data.nombre.toUpperCase();
+
+        // Busco si el producto ingresado existe en BD
+        const productoBD = await Producto.findOne({ nombre: data.nombre });
+        
+        // Verifico que el producto no exista
+        if ( productoBD ) {
+            return res.status(400).json({
+                msg: `El producto ${ productoBD.nombre } ya existe!`
+            });
+        };
+    };    
+
     data.usuario = req.usuarioAutenticado._id;
 
-    // Busco el ID de la categoria
-    const categoriaId = await Categoria.findOne({ categoria });
-    data.categoria = categoriaId._id;
+    // Busco el ID de la categoria si es que vino en el request
+    if ( categoria ) {
+        const categoriaId = await Categoria.findOne({ categoria });
+        data.categoria = categoriaId._id;
+    };
 
     const producto = await Producto.findByIdAndUpdate( id, data, { new: true } );
     
