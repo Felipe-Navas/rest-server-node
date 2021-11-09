@@ -30,14 +30,17 @@ This README would normally document whatever steps are necessary to get your app
     * ```node app```
     * ```npm start```
 * Dependencies
-    * "bcryptjs": "^2.4.3"
-    * "cors": "^2.8.5"
-    * "dotenv": "^10.0.0"
-    * "express": "^4.17.1"
-    * "express-validator": "^6.13.0"
-    * "jsonwebtoken": "^8.5.1"
-    * "mongoose": "^6.0.12"
+    * "bcryptjs": "^2.4.3",
+    * "cors": "^2.8.5",
+    * "dotenv": "^10.0.0",
+    * "express": "^4.17.1",
+    * "express-fileupload": "^1.2.1",
+    * "express-validator": "^6.13.0",
     * "google-auth-library": "^7.10.1",
+    * "jsonwebtoken": "^8.5.1",
+    * "mongoose": "^6.0.12",
+    * "nodemon": "^2.0.14",
+    * "uuid": "^8.3.2"
 
 * Google autentication
     * Go to https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
