@@ -32,6 +32,9 @@ const ProductoSchema = Schema({
         ref: 'Categoria',
         required: true,
     },
+    img: {
+        type: String
+    },
 });
 
 // Sobreescribo el metodo toJSON para quitar los campos __v para que no
