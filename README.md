@@ -25,12 +25,14 @@ This README would normally document whatever steps are necessary to get your app
         * SECRETOPRIVATEKEY= -> In this variable create a secure password for the token generation
         * GOOGLE_CLIENT_ID= -> In this variable set your google client id
         * GOOGLE_SECRET_ID= -> In this variable set your google secret id
+        * CLOUDINARY_URL= -> In this variable set your "API Environment variable" of your account in https://cloudinary.com/
 
 * How to run the app?
     * ```node app```
     * ```npm start```
 * Dependencies
     * "bcryptjs": "^2.4.3",
+    * "cloudinary": "^1.27.1",
     * "cors": "^2.8.5",
     * "dotenv": "^10.0.0",
     * "express": "^4.17.1",

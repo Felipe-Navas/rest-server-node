@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Felipe-Navas/rest-server-node#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.27.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
