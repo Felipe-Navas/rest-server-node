@@ -113,13 +113,18 @@ const obtenerImagen = async(req = request, res = response) => {
   try {
     if ( modelo.img ) {
 
-      // Borro la imagen existente
+      // Si la imagen existe, la envio en el response
       const pathImagen = path.join( __dirname, '../uploads', coleccion, modelo.img );
       if ( fs.existsSync( pathImagen ) ) {
         return res.sendFile( pathImagen );
       };
     };
     
+    // Si la imagen no existe, envio el assets/no-image.jpg
+    const pathNoImage = path.join( __dirname, '../assets/no-image.jpg' );
+    if ( fs.existsSync( pathNoImage ) ) {
+      return res.sendFile( pathNoImage );
+    };
   } catch (error) {
     console.log( error );
     res.status(500).json({ msg: error});
